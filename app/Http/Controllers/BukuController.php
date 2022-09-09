@@ -9,8 +9,9 @@ class BukuController extends Controller
 {
     public function index()
     {
-        $buku = Buku::all();
-        return view('buku.index', compact(['buku']));
+        return view('buku.index', [
+            'buku' => Buku::all(),
+        ]);
     }
     public function create()
     {
@@ -19,27 +20,53 @@ class BukuController extends Controller
 
     public function store(Request $request)
     {
-        Buku::create($request->except('_token', 'submit'));
-        return redirect('/buku');
+        try {
+            Buku::create($request->only([
+                'judul',
+                'no_seri',
+                'tgl_terbit',
+                'penerbit',
+                'kategori',
+            ]));
+        } catch (\Throwable $th) {
+            return redirect()->with('error', 'Gagal menambahkan data: ' . $th->getMessage());
+        }
+
+        return redirect()->back()->with('success', 'Berhasil menambahkan data');
     }
 
-    public function edit($id)
+    public function edit(Buku $buku)
     {
-        $buku = Buku::find($id);
-        return view('buku.edit', compact(['buku']));
+        return view('buku.edit', [
+            'buku' => $buku,
+        ]);
     }
 
-    public function update($id, Request $request)
+    public function update(Buku $buku, Request $request)
     {
-        $buku = Buku::find($id);
-        $buku->update($request->except('_token', 'submit'));
-        return redirect('/buku');
+        try {
+            $buku->update($request->only([
+                'judul',
+                'no_seri',
+                'tgl_terbit',
+                'penerbit',
+                'kategori',
+            ]));
+        } catch (\Throwable $th) {
+            return redirect()->with('error', 'Gagal memperbarui data: ' . $th->getMessage());
+        }
+
+        return redirect()->back()->with('success', 'Berhasil memperbarui data');
     }
 
-    public function destroy($id)
+    public function destroy(Buku $buku)
     {
-        $buku = Buku::find($id);
-        $buku->delete();
-        return redirect('/buku');
+        try {
+            $buku->delete();
+        } catch (\Throwable $th) {
+            return redirect()->with('error', 'Gagal menghapus data: ' . $th->getMessage());
+        }
+
+        return redirect()->back()->with('success', 'Berhasil menghapus data');
     }
 }
