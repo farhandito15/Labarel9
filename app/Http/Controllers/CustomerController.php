@@ -30,7 +30,7 @@ class CustomerController extends Controller
                 'alamat',
             ]));
         } catch (\Throwable $th) {
-            return redirect()->with('error', 'Gagal menambahkan data: ' . $th->getMessage());
+            return redirect()->with('error', 'Gagal menambahkan data: '.$th->getMessage());
         }
 
         return redirect()->back()->with('success', 'Berhasil menambahkan data');
@@ -54,7 +54,7 @@ class CustomerController extends Controller
                 'alamat',
             ]));
         } catch (\Throwable $th) {
-            return redirect()->with('error', 'Gagal memperbarui data: ' . $th->getMessage());
+            return redirect()->with('error', 'Gagal memperbarui data: '.$th->getMessage());
         }
 
         return redirect()->back()->with('success', 'Berhasil memperbarui data');
@@ -65,7 +65,7 @@ class CustomerController extends Controller
         try {
             $customer->delete();
         } catch (\Throwable $th) {
-            return redirect()->with('error', 'Gagal menghapus data: ' . $th->getMessage());
+            return redirect()->with('error', 'Gagal menghapus data: '.$th->getMessage());
         }
 
         return redirect()->back()->with('success', 'Berhasil menghapus data');

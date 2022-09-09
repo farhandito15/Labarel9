@@ -13,6 +13,7 @@ class BukuController extends Controller
             'buku' => Buku::all(),
         ]);
     }
+
     public function create()
     {
         return view('buku.create');
@@ -29,7 +30,7 @@ class BukuController extends Controller
                 'kategori',
             ]));
         } catch (\Throwable $th) {
-            return redirect()->with('error', 'Gagal menambahkan data: ' . $th->getMessage());
+            return redirect()->with('error', 'Gagal menambahkan data: '.$th->getMessage());
         }
 
         return redirect()->back()->with('success', 'Berhasil menambahkan data');
@@ -53,7 +54,7 @@ class BukuController extends Controller
                 'kategori',
             ]));
         } catch (\Throwable $th) {
-            return redirect()->with('error', 'Gagal memperbarui data: ' . $th->getMessage());
+            return redirect()->with('error', 'Gagal memperbarui data: '.$th->getMessage());
         }
 
         return redirect()->back()->with('success', 'Berhasil memperbarui data');
@@ -64,7 +65,7 @@ class BukuController extends Controller
         try {
             $buku->delete();
         } catch (\Throwable $th) {
-            return redirect()->with('error', 'Gagal menghapus data: ' . $th->getMessage());
+            return redirect()->with('error', 'Gagal menghapus data: '.$th->getMessage());
         }
 
         return redirect()->back()->with('success', 'Berhasil menghapus data');
