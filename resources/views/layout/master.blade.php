@@ -10,22 +10,9 @@
 </head>
 
 <body>
-    @if (session()->has('error'))
-        <div class="alert alert-danger">
-            {{ session()->get('error') }}
-        </div>
-    @endif
-    @if (session()->has('success'))
-        <div class="alert alert-success">
-            {{ session()->get('success') }}
-        </div>
-    @endif
-
     @yield('content')
     @include('sweetalert::alert')
-
-
-
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 </body>
 
 </html>
