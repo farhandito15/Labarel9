@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <h1>Data Data Buku</h1>
-    <a href="/buku/create" class="btn btn-primary">Tambah Data Buku</a>
+    <a href="{{ route('buku.create') }}" class="btn btn-primary">Tambah Data Buku</a>
 
     <table class="table table-hover">
         <tr>
@@ -26,8 +26,8 @@
             <td>{{$b->kategori}}</td>
             <td>
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <a href="/buku/{{$b->id}}/edit" class="btn btn-warning">Edit</a>
-                    <form action="/buku/{{$b->id}}" method="POST">
+                    <a href="{{ route('buku.edit', $b) }}" class="btn btn-warning">Edit</a>
+                    <form action="{{ route('buku.destroy', $b) }}" method="POST">
                         @csrf
                         @method('delete')
                         <input type="submit" value="Hapus" class="btn btn-danger">

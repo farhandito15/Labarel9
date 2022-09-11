@@ -9,9 +9,11 @@ class CustomerController extends Controller
 {
     public function index()
     {
-        $customer = Customer::all();
-        return view('customer.index', compact(['customer']));
+        return view('customer.index', [
+            'customer' => Customer::all(),
+        ]);
     }
+
     public function create()
     {
         return view('customer.create');
@@ -19,27 +21,53 @@ class CustomerController extends Controller
 
     public function store(Request $request)
     {
-        Customer::create($request->except('_token', 'submit'));
-        return redirect('/customer')->with('success', 'Data Berhasil Ditambah');
+        try {
+            Customer::create($request->only([
+                'nama',
+                'no_ktp',
+                'no_hp',
+                'gender',
+                'alamat',
+            ]));
+        } catch (\Throwable $th) {
+            return redirect()->with('error', 'Gagal menambahkan data: '.$th->getMessage());
+        }
+
+        return redirect()->back()->with('success', 'Berhasil menambahkan data');
     }
 
-    public function edit($id)
+    public function edit(Customer $customer)
     {
-        $customer = Customer::find($id);
-        return view('customer.edit', compact(['customer']));
+        return view('customer.edit', [
+            'customer' => $customer,
+        ]);
     }
 
-    public function update($id, Request $request)
+    public function update(Customer $customer, Request $request)
     {
-        $customer = Customer::find($id);
-        $customer->update($request->except('_token', 'submit'));
-        return redirect('/customer');
+        try {
+            $customer->update($request->only([
+                'nama',
+                'no_ktp',
+                'no_hp',
+                'gender',
+                'alamat',
+            ]));
+        } catch (\Throwable $th) {
+            return redirect()->with('error', 'Gagal memperbarui data: '.$th->getMessage());
+        }
+
+        return redirect()->back()->with('success', 'Berhasil memperbarui data');
     }
 
-    public function destroy($id)
+    public function destroy(Customer $customer)
     {
-        $customer = Customer::find($id);
-        $customer->delete();
-        return redirect('/customer');
+        try {
+            $customer->delete();
+        } catch (\Throwable $th) {
+            return redirect()->with('error', 'Gagal menghapus data: '.$th->getMessage());
+        }
+
+        return redirect()->back()->with('success', 'Berhasil menghapus data');
     }
 }
