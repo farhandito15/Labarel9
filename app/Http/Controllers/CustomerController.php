@@ -20,7 +20,7 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         Customer::create($request->except('_token', 'submit'));
-        return redirect('/customer');
+        return redirect('/customer')->with('success', 'Data Berhasil Ditambah');
     }
 
     public function edit($id)
